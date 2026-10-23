@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consulta el menú de Mario's Pizza: pizzas, bebidas, combos y complementos.">
+
+    <title>Productos | Mario's Pizza</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .menu-navegacion {
+            background: #F5F5F5;
+            padding: 20px 5%;
+        }
+
+        .menu-navegacion .categorias {
+            margin: 0;
+        }
+
+        .seccion-menu {
+            scroll-margin-top: 20px;
+        }
+
+        .seccion-menu h2 {
+            color: #DB2A2A;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .producto-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: auto;
+            flex: 1;
+        }
+
+        .producto {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .producto-info p {
+            margin-bottom: 12px;
+        }
+
+        .producto-info .descripcion {
+            flex-grow: 1;
+        }
+
+        .selector-tamanos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .btn-tamano {
+            border: 2px solid #2A65D1;
+            background: #FFFFFF;
+            color: #2A65D1;
+            padding: 8px 12px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-tamano:hover,
+        .btn-tamano.seleccionado {
+            background: #2A65D1;
+            color: #FFFFFF;
+        }
+
+        .precio-producto {
+            color: #DB2A2A;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: 10px 0 15px;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            background: #FFDA73;
+            color: #000000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .aviso-precios {
+            background: #FFDA73;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .boton-pedido {
+            margin-top: auto;
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            padding: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .menu-navegacion {
+                padding: 15px 3%;
+            }
+
+            .menu-navegacion .categorias {
+                gap: 8px;
+            }
+
+            .categoria {
+                padding: 9px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header>
+        <div class="logo">
+                <a href="Productos.html"><img src="Img/Logo.png" alt=""></a><p>Mario's Pizza</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html" class="activo">Productos</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- PORTADA -->
+        <section class="hero">
+            <div class="hero-contenido">
+                <h1>Nuestro menú</h1>
+
+                <p>
+                    Descubre nuestras pizzas, bebidas, combos
+                    y complementos. ¡Encuentra tu favorito
+                    en Mario's Pizza!
+                </p>
+
+                <a href="#pizzas" class="btn btn-amarillo">
+                    Ver las pizzas
+                </a>
+            </div>
+
+            <div class="hero-imagen">
+                <img
+                    src="Img/pizza inicio menu.jpg"
+                    alt="Pizza de Mario's Pizza"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFDA73/000000?text=Marios+Pizza';"
+                >
+            </div>
+        </section>
+
+        <!-- NAVEGACION ENTRE CATEGORIAS -->
+        <div class="menu-navegacion">
+            <div class="categorias">
+                <a class="categoria" href="#pizzas">🍕 Pizzas</a>
+                <a class="categoria" href="#bebidas">🥤 Bebidas</a>
+                <a class="categoria" href="#complementos">🍟 Complementos</a>
+                <a class="categoria" href="#combos">🎉 Combos</a>
+                <a class="categoria" href="#extras">🧀 Personaliza tu pizza</a>
+            </div>
+        </div>
+
+        <!-- CONTENIDO GENERADO CON EL CATALOGO -->
+        <section id="pizzas" class="seccion-menu">
+            <h2>🍕 Nuestras pizzas</h2>
+
+            <p class="subtitulo">
+                Elige tu especialidad y selecciona el tamaño
+                que prefieras.
+            </p>
+
+            <div id="lista-pizzas" class="productos"></div>
+        </section>
+
+        <section id="bebidas" class="seccion-menu">
+            <h2>🥤 Bebidas</h2>
+            <p class="subtitulo">
+                Refresca tu comida con nuestras bebidas.
+            </p>
+            <div id="lista-bebidas" class="productos"></div>
+        </section>
+
+        <section id="complementos" class="seccion-menu">
+            <h2>🍟 Complementos</h2>
+            <p class="subtitulo">
+                Acompaña tu pizza con algo delicioso.
+            </p>
+            <div id="lista-complementos" class="productos"></div>
+        </section>
+
+        <section id="combos" class="seccion-menu">
+            <h2>🎉 Nuestros combos</h2>
+            <p class="subtitulo">
+                Opciones para compartir y disfrutar.
+            </p>
+            <div id="lista-combos" class="productos"></div>
+        </section>
+
+        <section id="extras" class="seccion-menu">
+            <h2>🧀 Personaliza tu pizza</h2>
+            <p class="subtitulo">
+                Añade ingredientes adicionales a tu gusto.
+            </p>
+            <div id="lista-extras" class="productos"></div>
+        </section>
+
+        <!-- PROMOCION -->
+        <section class="promocion">
+            <h2>¡Martes de 2x1!</h2>
+
+            <p>
+                Consulta la promoción del menú para pizzas
+                medianas y grandes y confirma sus condiciones
+                antes de realizar tu pedido.
+            </p>
+
+            <a href="contacto.html" class="btn btn-azul">
+                Contactar a Mario's Pizza
+            </a>
+        </section>
+
+    </main>
+
+    <!-- PIE DE PAGINA -->
+    <footer>
+        <div class="footer-contenido">
+
+            <div>
+                <h3>Mario's Pizza</h3>
+                <p>Sabor urbano, pasión por la pizza.</p>
+            </div>
+
+            <div>
+                <h3>Enlaces</h3>
+                <p><a href="index.html">Inicio</a></p>
+                <p><a href="productos.html">Productos</a></p>
+                <p><a href="nosotros.html">Nosotros</a></p>
+                <p><a href="contacto.html">Contacto</a></p>
+            </div>
+
+            <div>
+                <h3>Contacto</h3>
+                <p>Cuautitlán Izcalli, Estado de México</p>
+                <p>Consulta disponibilidad y pedidos en nuestra página de contacto.</p>
+            </div>
+
+        </div>
+
+        <p class="footer-copy">
+            &copy; 2026 Mario's Pizza. Todos los derechos reservados.
+        </p>
+    </footer>
+
+    <script>
+        // =============================================
+        // CATALOGO DE MARIO'S PIZZA
+        // EDITA AQUI los precios de cada pizza por tamaño.
+        // Los importes de chica, grande y familiar son provisionales.
+        // =============================================
+
+        const pizzas = [
+            {
+                nombre: "Margarita",
+                descripcion: "Salsa de tomate, mozzarella y albahaca fresca.",
+                precios: {
+                    Chica: 95.20,
+                    Mediana: 119.00,
+                    Grande: 148.75,
+                    Familiar: 178.50
+                },
+                imagen: "Img/margarita.jpg"
+            },
+            {
+                nombre: "Pepperoni",
+                descripcion: "Salsa de tomate, mozzarella y pepperoni.",
+                precios: {
+                    Chica: 103.20,
+                    Mediana: 129.00,
+                    Grande: 161.25,
+                    Familiar: 193.50
+                },
+                imagen: "Img/Peperoni.jpeg"
+            },
+            {
+                nombre: "Hawaiana",
+                descripcion: "Mozzarella, jamón y piña.",
+                precios: {
+                    Chica: 111.20,
+                    Mediana: 139.00,
+                    Grande: 173.75,
+                    Familiar: 208.50
+                },
+                imagen: "Img/Hawaiana.jpeg"
+            },
+            {
+                nombre: "Vegetariana",
+                descripcion: "Champiñones, pimiento, cebolla, aceitunas y mozzarella.",
+                precios: {
+                    Chica: 111.20,
+                    Mediana: 139.00,
+                    Grande: 173.75,
+                    Familiar: 208.50
+                },
+                imagen: "Img/Vegetariana.jpeg"
+            },
+            {
+                nombre: "Suprema",
+                descripcion: "Pepperoni, jamón, champiñones, pimiento y mozzarella.",
+                precios: {
+                    Chica: 127.20,
+                    Mediana: 159.00,
+                    Grande: 198.75,
+                    Familiar: 238.50
+                },
+                imagen: "Img/Suprema.jpeg"
+            },
+            {
+                nombre: "BBQ Chicken",
+                descripcion: "Pollo, cebolla morada, mozzarella y salsa BBQ.",
+                precios: {
+                    Chica: 127.20,
+                    Mediana: 159.00,
+                    Grande: 198.75,
+                    Familiar: 238.50
+                },
+                imagen: "img/BBQ Chicken.jpg"
+            },
+            {
+                nombre: "Mexicana",
+                descripcion: "Chorizo, jalapeño, cebolla y mozzarella.",
+                precios: {
+                    Chica: 127.20,
+                    Mediana: 159.00,
+                    Grande: 198.75,
+                    Familiar: 238.50
+                },
+                imagen: "img/Mexicana.jpeg"
+            },
+            {
+                nombre: "Carnívora",
+                descripcion: "Pepperoni, salchicha, jamón, tocino y queso extra.",
+                precios: {
+                    Chica: 135.20,
+                    Mediana: 169.00,
+                    Grande: 211.25,
+                    Familiar: 253.50
+                },
+                imagen: "img/Carnivora.jpg"
+            },
+            {
+                nombre: "Cuatro Quesos",
+                descripcion: "Mozzarella, cheddar, parmesano y queso crema.",
+                precios: {
+                    Chica: 127.20,
+                    Mediana: 159.00,
+                    Grande: 198.75,
+                    Familiar: 238.50
+                },
+                imagen: "img/Cuatro quesos.jpg"
+            },
+            {
+                nombre: "Orilla de Queso",
+                descripcion: "Pizza de pepperoni con orilla rellena de queso.",
+                precios: {
+                    Chica: 143.20,
+                    Mediana: 179.00,
+                    Grande: 223.75,
+                    Familiar: 268.50
+                },
+                imagen: "img/Orilla de queso.jpg"
+            }
+        ];
+
+        const bebidas = [
+            { nombre: "Refresco en lata", descripcion: "Sabores disponibles, 355 ml.", precio: 25 },
+            { nombre: "Refresco", descripcion: "Botella individual, 600 ml.", precio: 30 },
+            { nombre: "Agua natural", descripcion: "Botella de 600 ml.", precio: 18 },
+            { nombre: "Agua de jamaica", descripcion: "Preparada, 500 ml.", precio: 28 },
+            { nombre: "Agua de horchata", descripcion: "Preparada, 500 ml.", precio: 30 },
+            { nombre: "Té helado", descripcion: "Bebida fría de té, 500 ml.", precio: 30 },
+            { nombre: "Agua mineral", descripcion: "Botella de 600 ml.", precio: 28 },
+            { nombre: "Malteada", descripcion: "Chocolate o fresa, 400 ml.", precio: 55 }
+        ];
+
+        const complementos = [
+            { nombre: "Papas a la francesa", descripcion: "Porción de papas doradas y crujientes.", precio: 45 },
+            { nombre: "Pan con ajo", descripcion: "Bastones horneados con mantequilla y ajo.", precio: 39 },
+            { nombre: "Pan de queso", descripcion: "Pan horneado con mozzarella y especias.", precio: 49 },
+            { nombre: "Dedos de queso", descripcion: "Seis piezas empanizadas con salsa de tomate.", precio: 69 },
+            { nombre: "Aros de cebolla", descripcion: "Porción de aros dorados y crujientes.", precio: 49 },
+            { nombre: "Papas cargadas", descripcion: "Papas con queso cheddar y tocino.", precio: 69 },
+            { nombre: "Nuggets de pollo", descripcion: "Ocho piezas acompañadas de aderezo.", precio: 65 },
+            { nombre: "Alitas BBQ", descripcion: "Seis piezas bañadas en salsa BBQ.", precio: 89 },
+            { nombre: "Brownie de chocolate", descripcion: "Postre de chocolate con centro húmedo.", precio: 39 }
+        ];
+
+        const combos = [
+            { nombre: "Combo Express", descripcion: "Pizza individual y refresco en lata.", precio: 109 },
+            { nombre: "Combo Individual", descripcion: "Pizza mediana de pepperoni, papas a la francesa y refresco.", precio: 169 },
+            { nombre: "Combo Clásico", descripcion: "Pizza mediana, pan de queso y dos refrescos en lata.", precio: 199 },
+            { nombre: "Combo Dúo", descripcion: "Dos pizzas medianas a elegir y dos refrescos individuales.", precio: 279 },
+            { nombre: "Combo Friends", descripcion: "Dos pizzas medianas, papas a la francesa y dos refrescos.", precio: 329 },
+            { nombre: "Combo Familiar", descripcion: "Dos pizzas grandes, papas a la francesa y refresco de 1.5 L.", precio: 399 },
+            { nombre: "Combo Party", descripcion: "Tres pizzas grandes, pan de queso y dos refrescos de 1.5 L.", precio: 599 },
+            { nombre: "Combo Snack", descripcion: "Alitas BBQ, papas a la francesa y refresco individual.", precio: 139 }
+        ];
+
+        const extras = [
+            { nombre: "Queso extra", descripcion: "Porción adicional de queso mozzarella.", precio: 20 },
+            { nombre: "Pepperoni extra", descripcion: "Porción adicional de pepperoni.", precio: 20 },
+            { nombre: "Jamón extra", descripcion: "Porción adicional de jamón.", precio: 18 },
+            { nombre: "Tocino extra", descripcion: "Porción adicional de tocino.", precio: 25 },
+            { nombre: "Champiñones extra", descripcion: "Porción adicional de champiñones.", precio: 15 },
+            { nombre: "Piña extra", descripcion: "Porción adicional de piña.", precio: 15 },
+            { nombre: "Jalapeños extra", descripcion: "Porción adicional de jalapeños.", precio: 10 },
+            { nombre: "Orilla rellena", descripcion: "Agrega queso a la orilla de tu pizza.", precio: 35 }
+        ];
+
+        const formatoMXN = new Intl.NumberFormat("es-MX", {
+            style: "currency",
+            currency: "MXN"
+        });
+
+        function crearTarjetaPizza(pizza, indice) {
+            const articulo = document.createElement("article");
+            articulo.className = "producto";
+
+            articulo.innerHTML = `
+                <img
+                    src="${pizza.imagen}"
+                    alt="Pizza ${pizza.nombre}"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFDA73/000000?text=Pizza';"
+                >
+
+                <div class="producto-info">
+                    <span class="etiqueta">Pizza</span>
+
+                    <h3>${pizza.nombre}</h3>
+
+                    <p class="descripcion">${pizza.descripcion}</p>
+
+                    <strong>Selecciona el tamaño:</strong>
+
+                    <div class="selector-tamanos"
+                         role="group"
+                         aria-label="Tamaño de ${pizza.nombre}">
+                        ${Object.keys(pizza.precios).map((tamano, i) => `
+                            <button
+                                type="button"
+                                class="btn-tamano ${i === 1 ? "seleccionado" : ""}"
+                                data-tamano="${tamano}"
+                                aria-pressed="${i === 1 ? "true" : "false"}"
+                            >${tamano}</button>
+                        `).join("")}
+                    </div>
+
+                    <p class="precio-producto" aria-live="polite">
+                        ${formatoMXN.format(pizza.precios.Mediana)}
+                    </p>
+
+                    <button type="button"
+                            class="btn btn-rojo boton-pedido">
+                        Consultar pedido
+                    </button>
+                </div>
+            `;
+
+            const precioElemento = articulo.querySelector(".precio-producto");
+            const botones = articulo.querySelectorAll(".btn-tamano");
+            const botonPedido = articulo.querySelector(".boton-pedido");
+
+            let tamanoSeleccionado = "Mediana";
+            let precioSeleccionado = pizza.precios.Mediana;
+
+            function actualizarPrecio(tamano) {
+                tamanoSeleccionado = tamano;
+
+                precioSeleccionado = pizza.precios[tamano];
+
+                precioElemento.textContent =
+                    formatoMXN.format(precioSeleccionado);
+
+                botones.forEach(boton => {
+                    const activo = boton.dataset.tamano === tamano;
+
+                    boton.classList.toggle("seleccionado", activo);
+                    boton.setAttribute("aria-pressed", String(activo));
+                });
+            }
+
+            botones.forEach(boton => {
+                boton.addEventListener("click", () => {
+                    actualizarPrecio(boton.dataset.tamano);
+                });
+            });
+
+            botonPedido.addEventListener("click", () => {
+                const mensaje =
+                    `Hola, quiero consultar disponibilidad para una pizza ` +
+                    `${pizza.nombre}, tamaño ${tamanoSeleccionado}, ` +
+                    `con precio mostrado de ${formatoMXN.format(precioSeleccionado)}.`;
+
+                // Abre el formulario de contacto con el mensaje preparado.
+                const url = "contacto.html?mensaje=" +
+                    encodeURIComponent(mensaje);
+
+                window.location.href = url;
+            });
+
+            // La opción inicial es mediana, con su precio propio.
+            actualizarPrecio("Mediana");
+
+            return articulo;
+        }
+
+        function renderizarProductos(contenedorId, productos, esPizza = false) {
+            const contenedor = document.getElementById(contenedorId);
+
+            productos.forEach((producto, indice) => {
+                if (esPizza) {
+                    contenedor.appendChild(
+                        crearTarjetaPizza(producto, indice)
+                    );
+                } else {
+                    const articulo = document.createElement("article");
+                    articulo.className = "producto";
+
+                    articulo.innerHTML = `
+                        <div class="producto-info">
+                            <span class="etiqueta">Mario's Pizza</span>
+                            <h3>${producto.nombre}</h3>
+                            <p class="descripcion">${producto.descripcion}</p>
+                            <p class="precio-producto">
+                                ${formatoMXN.format(producto.precio)}
+                            </p>
+                            <a class="btn btn-azul boton-pedido"
+                               href="contacto.html?producto=${encodeURIComponent(producto.nombre)}">
+                                Consultar producto
+                            </a>
+                        </div>
+                    `;
+
+                    contenedor.appendChild(articulo);
+                }
+            });
+        }
+
+        // Mostrar todo el catálogo.
+        renderizarProductos("lista-pizzas", pizzas, true);
+        renderizarProductos("lista-bebidas", bebidas);
+        renderizarProductos("lista-complementos", complementos);
+        renderizarProductos("lista-combos", combos);
+        renderizarProductos("lista-extras", extras);
+
+        // Navegación suave entre secciones.
+        document.querySelectorAll(".menu-navegacion a").forEach(enlace => {
+            enlace.addEventListener("click", evento => {
+                const destino = document.querySelector(
+                    enlace.getAttribute("href")
+                );
+
+                if (destino) {
+                    evento.preventDefault();
+
+                    destino.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                    history.replaceState(
+                        null,
+                        "",
+                        enlace.getAttribute("href")
+                    );
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
